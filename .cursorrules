@@ -1,0 +1,170 @@
+{
+  "formatter": {
+    "indentStyle": "space",
+    "indentSize": 2,
+    "lineWidth": 80,
+    "useTabs": false,
+    "singleQuote": true,
+    "trailingComma": "es5",
+    "semi": true,
+    "bracketSpacing": true,
+    "arrowParens": "always",
+    "endOfLine": "lf",
+    "jsxSingleQuote": false,
+    "jsxBracketSameLine": false
+  },
+  "linter": {
+    "rules": {
+      "no-unused-vars": "warn",
+      "no-console": "warn",
+      "no-debugger": "warn",
+      "prefer-const": "error",
+      "no-var": "error",
+      "eqeqeq": "error",
+      "no-multiple-empty-lines": ["error", { "max": 1 }],
+      "no-trailing-spaces": "error",
+      "comma-dangle": ["error", "always-multiline"],
+      "quotes": ["error", "single"],
+      "jsx-quotes": ["error", "prefer-double"],
+      "react/jsx-max-props-per-line": ["error", { "maximum": 1, "when": "multiline" }],
+      "react/jsx-first-prop-new-line": ["error", "multiline"],
+      "react/jsx-closing-bracket-location": ["error", "line-aligned"],
+      "react/jsx-boolean-value": ["error", "never"],
+      "react/prop-types": "off",
+      "react/jsx-pascal-case": "error",
+      "react/jsx-no-bind": "warn",
+      "react/jsx-handler-names": ["warn", {
+        "eventHandlerPrefix": "handle",
+        "eventHandlerPropPrefix": "on"
+      }],
+      "import/order": ["error", {
+        "groups": ["builtin", "external", "internal", "parent", "sibling", "index"],
+        "newlines-between": "always",
+        "alphabetize": { "order": "asc" }
+      }],
+      "import/no-default-export": "warn"
+    }
+  },
+  "typescript": {
+    "strict": true,
+    "noImplicitAny": true,
+    "strictNullChecks": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noFallthroughCasesInSwitch": true,
+    "allowJs": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "useDefineForClassFields": true,
+    "isolatedModules": true
+  },
+  "react": {
+    "hooks": {
+      "rules-of-hooks": "error",
+      "exhaustive-deps": "warn"
+    },
+    "conventions": {
+      "componentNaming": {
+        "pattern": "^[A-Z][a-zA-Z0-9]*$",
+        "message": "Component names must be PascalCase"
+      },
+      "hookNaming": {
+        "pattern": "^use[A-Z][a-zA-Z0-9]*$",
+        "message": "Hook names must start with 'use' and be PascalCase"
+      }
+    }
+  },
+  "filePatterns": {
+    "include": [
+      "src/**/*.{ts,tsx,js,jsx,css,scss}",
+      "vite.config.ts"
+    ],
+    "exclude": [
+      "node_modules/**/*",
+      "dist/**/*",
+      "build/**/*",
+      "**/*.test.{ts,tsx}",
+      "**/*.spec.{ts,tsx}"
+    ]
+  },
+  "organizeImports": {
+    "enabled": true,
+    "groupOrder": [
+      "builtin",
+      "external",
+      "internal",
+      ["parent", "sibling", "index"]
+    ]
+  },
+  "naming": {
+    "conventions": {
+      "variables": "camelCase",
+      "functions": "camelCase",
+      "components": "PascalCase",
+      "interfaces": "PascalCase",
+      "types": "PascalCase",
+      "enums": "PascalCase",
+      "constants": "UPPER_SNAKE_CASE",
+      "files": {
+        "components": "PascalCase.tsx",
+        "hooks": "camelCase.ts",
+        "utils": "camelCase.ts",
+        "types": "types.ts",
+        "styles": "camelCase.css"
+      }
+    }
+  },
+  "styling": {
+    "cssModules": true,
+    "classNaming": {
+      "pattern": "^[a-z][a-zA-Z0-9]*$",
+      "message": "CSS class names must be camelCase"
+    },
+    "cssProperties": {
+      "order": ["position", "display", "box-model", "typography", "visual"],
+      "newlinesBetweenGroups": true
+    },
+    "chakraUI": {
+      "componentNaming": {
+        "pattern": "^[A-Z][a-zA-Z0-9]*$",
+        "message": "Chakra component names must be PascalCase"
+      },
+      "themeTokens": {
+        "enforceCustomTokens": true,
+        "customTokensPath": "src/theme"
+      },
+      "props": {
+        "enforceShorthandProps": true,
+        "sortProps": true,
+        "propOrder": [
+          "layout",
+          "position",
+          "spacing",
+          "colors",
+          "typography",
+          "borders",
+          "effects",
+          "other"
+        ]
+      }
+    }
+  },
+  "vite": {
+    "buildOptimization": true,
+    "devServer": {
+      "port": 3000,
+      "open": true,
+      "hmr": true
+    }
+  },
+  "documentation": {
+    "requireJSDoc": {
+      "components": true,
+      "hooks": true,
+      "utils": true
+    },
+    "componentProps": {
+      "requireDescription": true
+    }
+  }
+} 
