@@ -1,6 +1,19 @@
 import { Box } from '@chakra-ui/react'
-import { Header } from '../../components/Header/Header'
-import { TitleSection } from '../../components/TitleSection/TitleSection'
+import {
+  Header,
+  TitleSection,
+  ValueProposition,
+  PartnerLogos,
+  AboutSection,
+  SolutionsSection,
+  CaseStudies,
+  Benefits,
+  ClimateFinance,
+  ValuesSection,
+  ContactForm,
+  Partnership,
+  Footer,
+} from '../../components'
 
 export function Home() {
     //console.log('Home component rendered')  
@@ -8,6 +21,19 @@ export function Home() {
     <Box as="main" minH="100vh" bg="gray.50">
       <Header />
       <TitleSection />
+      <ValueProposition />
+      <PartnerLogos />
+      <AboutSection />
+      <SolutionsSection />
+      <ContactForm />
+      <CaseStudies />
+      <Benefits />
+      <ClimateFinance />
+      <ValuesSection />
+      <Partnership />
+      <Footer />
+
+
       {/* Other sections will be added here */}
     </Box>
   )

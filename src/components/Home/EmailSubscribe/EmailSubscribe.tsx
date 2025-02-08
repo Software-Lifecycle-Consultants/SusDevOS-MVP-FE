@@ -1,12 +1,12 @@
 import {
   Button,
   Input,
-  InputGroup,
-  InputRightElement,
   Text,
   VStack,
   useToast,
   Spinner,
+  Flex,
+  Box,
 } from '@chakra-ui/react'
 import { useState } from 'react'
 
@@ -77,42 +77,50 @@ export function EmailSubscribe({
   }
 
   return (
-    <VStack spacing={2} align="stretch" w="100%">
-      <InputGroup size="lg" maxW={{ base: "100%", md: "480px" }}>
-        <Input
-          bg="gray.100"
-          border="none"
-          placeholder={placeholder}
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          pr="160px"
-          _placeholder={{ color: 'gray.500' }}
-          isInvalid={!!error}
-          disabled={isLoading}
-          _disabled={{ opacity: 0.7, cursor: 'not-allowed' }}
-        />
-        <InputRightElement w="auto" pr={2}>
+    <Flex justify="center" w="100%" mt={8}>
+      <VStack spacing={2} align="center" w="100%" maxW="680px" mx="auto">
+        <Box position="relative" w="100%">
+          <Input
+            size="lg"
+            bg="gray.100"
+            border="1px"
+            borderColor={error ? "red.500" : "gray.200"}
+            borderRadius="md"
+            placeholder={placeholder}
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            h="56px"
+            _placeholder={{ color: 'gray.500' }}
+            disabled={isLoading}
+            _disabled={{ opacity: 0.7, cursor: 'not-allowed' }}
+            px={4}
+          />
           <Button
+            position="absolute"
+            right="4px"
+            top="4px"
             colorScheme="gray"
             bg="gray.900"
             color="white"
-            size="md"
+            size="lg"
             onClick={handleSubmit}
             _hover={{ bg: 'gray.700' }}
             isLoading={isLoading}
             loadingText="Subscribing..."
             spinner={<Spinner size="sm" color="white" />}
             disabled={isLoading}
+            h="48px"
+            px="8"
           >
             {buttonText}
           </Button>
-        </InputRightElement>
-      </InputGroup>
-      {error && (
-        <Text color="red.500" fontSize="sm">
-          {error}
-        </Text>
-      )}
-    </VStack>
+        </Box>
+        {error && (
+          <Text color="red.500" fontSize="sm" textAlign="center">
+            {error}
+          </Text>
+        )}
+      </VStack>
+    </Flex>
   )
 } 
