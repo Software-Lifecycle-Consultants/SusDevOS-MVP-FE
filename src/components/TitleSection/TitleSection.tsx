@@ -8,10 +8,24 @@ export function TitleSection() {
   }
 
   return (
-    <Box as="section" py={{ base: 16, md: 32 }} bg="white">
-      <Container maxW="container.xl">
-        <VStack spacing={8} textAlign="center">
-          <VStack spacing={4} maxW="container.lg">
+    <Box 
+      as="section" 
+      py={{ base: 16, md: 32 }} 
+      bg="white"
+      w="100%"
+    >
+      <Container 
+        maxW="1920px" 
+        px={{ base: 4, md: 6, lg: 8 }}
+        mx="auto"
+      >
+        <VStack 
+          spacing={8} 
+          textAlign="center"
+          maxW="1440px"
+          mx="auto"
+        >
+          <VStack spacing={4}>
             <Heading
               as="h1"
               fontSize={{ base: '4xl', md: '5xl', lg: '6xl' }}
