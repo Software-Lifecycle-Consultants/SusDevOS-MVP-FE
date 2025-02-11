@@ -8,9 +8,15 @@ export const theme = extendTheme({
   styles: {
     global: {
       body: {
-        bg: 'white',
+        bg: 'gray.50',
         color: 'gray.800',
       },
+    },
+  },
+  colors: {
+    brand: {
+      primary: '#14171F',
+      hover: '#2D3748',
     },
   },
 }); 

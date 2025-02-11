@@ -22,10 +22,10 @@ export function Navbar() {
 
   const MenuLinks = () => (
     <>
-      <Link href="#about">About</Link>
-      <Link href="#solutions">Solutions</Link>
-      <Link href="#case-studies">Case Studies</Link>
-      <Link href="#contact">Contact</Link>
+      <Link as={RouterLink} to="/#about">About</Link>
+      <Link as={RouterLink} to="/#solutions">Solutions</Link>
+      <Link as={RouterLink} to="/#case-studies">Case Studies</Link>
+      <Link as={RouterLink} to="/#contact">Contact</Link>
     </>
   );
 
@@ -87,8 +87,8 @@ export function Navbar() {
         <Drawer isOpen={isOpen} onClose={onClose} placement="right">
           <DrawerOverlay />
           <DrawerContent>
-            <DrawerCloseButton />
-            <DrawerBody pt={16}>
+            <DrawerCloseButton mt={4} />
+            <DrawerBody pt={16} px={6}>
               <VStack spacing={6} align="start">
                 <MenuLinks />
                 <VStack spacing={4} align="stretch" width="100%" pt={4}>

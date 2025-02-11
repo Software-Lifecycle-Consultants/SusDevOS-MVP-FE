@@ -3,6 +3,7 @@ import {
   Button,
   Container,
   FormControl,
+  FormErrorMessage,
   Heading,
   Input,
   Text,
@@ -42,21 +43,27 @@ export function ContactForm() {
 
     if (!data.name.trim()) {
       newErrors.name = 'Name is required'
+    } else if (data.name.trim().length < 4) {
+      newErrors.name = 'Name must be at least 4 characters'
     }
 
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
     if (!data.email.trim()) {
       newErrors.email = 'Email is required'
     } else if (!emailRegex.test(data.email)) {
-      newErrors.email = 'Invalid email address'
+      newErrors.email = 'Invalid email format'
     }
 
     if (!data.organization.trim()) {
       newErrors.organization = 'Organization is required'
+    } else if (data.organization.trim().length < 4) {
+      newErrors.organization = 'Organization must be at least 4 characters'
     }
 
     if (!data.message.trim()) {
       newErrors.message = 'Message is required'
+    } else if (data.message.trim().length < 10) {
+      newErrors.message = 'Message must be at least 10 characters'
     }
 
     return newErrors
@@ -160,7 +167,7 @@ export function ContactForm() {
                   gap={4}
                   w="100%"
                 >
-                  <FormControl>
+                  <FormControl isInvalid={!!errors.name}>
                     <Input
                       name="name"
                       value={formData.name}
@@ -173,9 +180,10 @@ export function ContactForm() {
                       _hover={{ borderColor: 'gray.400' }}
                       _focus={{ borderColor: 'cyan.400', boxShadow: 'none' }}
                     />
+                    <FormErrorMessage>{errors.name}</FormErrorMessage>
                   </FormControl>
 
-                  <FormControl>
+                  <FormControl isInvalid={!!errors.email}>
                     <Input
                       name="email"
                       type="email"
@@ -189,10 +197,11 @@ export function ContactForm() {
                       _hover={{ borderColor: 'gray.400' }}
                       _focus={{ borderColor: 'cyan.400', boxShadow: 'none' }}
                     />
+                    <FormErrorMessage>{errors.email}</FormErrorMessage>
                   </FormControl>
                 </Box>
 
-                <FormControl>
+                <FormControl isInvalid={!!errors.organization}>
                   <Input
                     name="organization"
                     value={formData.organization}
@@ -205,9 +214,10 @@ export function ContactForm() {
                     _hover={{ borderColor: 'gray.400' }}
                     _focus={{ borderColor: 'cyan.400', boxShadow: 'none' }}
                   />
+                  <FormErrorMessage>{errors.organization}</FormErrorMessage>
                 </FormControl>
 
-                <FormControl>
+                <FormControl isInvalid={!!errors.message}>
                   <Textarea
                     name="message"
                     value={formData.message}
@@ -221,6 +231,7 @@ export function ContactForm() {
                     _focus={{ borderColor: 'cyan.400', boxShadow: 'none' }}
                     rows={4}
                   />
+                  <FormErrorMessage>{errors.message}</FormErrorMessage>
                 </FormControl>
 
                 <Button

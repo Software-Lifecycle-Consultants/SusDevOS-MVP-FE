@@ -38,9 +38,14 @@ export function SignUp() {
     const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9!@#$%^&*])(?=.{8,})/;
     if (!password) {
       newErrors.password = 'Password is required';
-    } else if (!passwordRegex.test(password)) {
-      newErrors.password =
-        'Password must be at least 8 characters and include uppercase, lowercase, and a number or special character';
+    } else if (password.length < 8) {
+      newErrors.password = 'Password must be at least 8 characters';
+    } else if (!/[A-Z]/.test(password)) {
+      newErrors.password = 'Password must include an uppercase letter';
+    } else if (!/[a-z]/.test(password)) {
+      newErrors.password = 'Password must include a lowercase letter';
+    } else if (!/[0-9!@#$%^&*]/.test(password)) {
+      newErrors.password = 'Password must include a number or special character';
     }
 
     // Confirm password validation
@@ -66,28 +71,11 @@ export function SignUp() {
   };
 
   return (
-    <Box 
-      bg="gray.50" 
-      minH="100vh" 
-      w="100vw"
-      display="flex" 
-      flexDirection="column"
-    >
+    <Box bg="gray.50" minH="100vh" display="flex" flexDirection="column">
       <Header />
-      <Box flex="1" w="full">
-        <Container 
-          maxW="full" 
-          px={0} 
-          h="full" 
-          centerContent
-        >
-          <Flex 
-            direction="column" 
-            align="center" 
-            justify="flex-start" 
-            pt={8}
-            w="full"
-          >
+      <Box flex="1">
+        <Container maxW="container.xl" py={8}>
+          <Flex direction="column" align="center">
             {/* Logo */}
             <Box
               bg="cyan.400"
@@ -109,7 +97,6 @@ export function SignUp() {
               borderRadius="xl"
               boxShadow="sm"
               p={{ base: 6, md: 8 }}
-              mx="auto"
             >
               <VStack spacing={6} align="stretch">
                 <VStack spacing={1} align="center">
