@@ -1,7 +1,6 @@
 import {
   Box,
   Button,
-  Container,
   Flex,
   FormControl,
   FormErrorMessage,
@@ -13,44 +12,93 @@ import {
   useToast,
 } from '@chakra-ui/react';
 import { useState } from 'react';
-import { Footer } from '../../components/Footer/Footer';
-import { Header } from '../../components/Header/Header';
+import { PageContainer } from '../../components/PageContainer/PageContainer';
+import { StepOne } from './components/StepOne';
+import { StepTwo } from './components/StepTwo';
+import { StepThree } from './components/StepThree';
 
 export function SignUp() {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
+  const [step, setStep] = useState(1);
+  const [formData, setFormData] = useState({
+    email: '',
+    password: '',
+    confirmPassword: '',
+    organization: '',
+    phoneNumber: '',
+    message: '',
+  });
+  const [agreed, setAgreed] = useState(false);
   const [errors, setErrors] = useState<Record<string, string>>({});
   const toast = useToast();
 
-  const validateForm = () => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      [name]: value,
+    }));
+    if (errors[name]) {
+      setErrors(prev => ({
+        ...prev,
+        [name]: '',
+      }));
+    }
+  };
+
+  const handleCheckbox = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setAgreed(e.target.checked);
+  };
+
+  const validateStepOne = () => {
     const newErrors: Record<string, string> = {};
 
     // Email validation
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!email) {
+    if (!formData.email) {
       newErrors.email = 'Email is required';
-    } else if (!emailRegex.test(email)) {
+    } else if (!emailRegex.test(formData.email)) {
       newErrors.email = 'Invalid email format';
     }
 
     // Password validation
     const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9!@#$%^&*])(?=.{8,})/;
-    if (!password) {
+    if (!formData.password) {
       newErrors.password = 'Password is required';
-    } else if (password.length < 8) {
+    } else if (formData.password.length < 8) {
       newErrors.password = 'Password must be at least 8 characters';
-    } else if (!/[A-Z]/.test(password)) {
+    } else if (!/[A-Z]/.test(formData.password)) {
       newErrors.password = 'Password must include an uppercase letter';
-    } else if (!/[a-z]/.test(password)) {
+    } else if (!/[a-z]/.test(formData.password)) {
       newErrors.password = 'Password must include a lowercase letter';
-    } else if (!/[0-9!@#$%^&*]/.test(password)) {
+    } else if (!/[0-9!@#$%^&*]/.test(formData.password)) {
       newErrors.password = 'Password must include a number or special character';
     }
 
     // Confirm password validation
-    if (password !== confirmPassword) {
+    if (formData.password !== formData.confirmPassword) {
       newErrors.confirmPassword = 'Passwords do not match';
+    }
+
+    setErrors(newErrors);
+    if (Object.keys(newErrors).length === 0) {
+      setStep(2);
+    }
+  };
+
+  const validateStepTwo = () => {
+    const newErrors: Record<string, string> = {};
+
+    if (!formData.organization) {
+      newErrors.organization = 'Organisation is required';
+    }
+    if (!formData.phoneNumber) {
+      newErrors.phoneNumber = 'Phone number is required';
+    }
+    if (!formData.message) {
+      newErrors.message = 'Message is required';
+    }
+    if (!agreed) {
+      newErrors.agreed = 'You must agree to the terms and conditions';
     }
 
     setErrors(newErrors);
@@ -59,131 +107,76 @@ export function SignUp() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (validateForm()) {
-      toast({
-        title: 'Account created.',
-        description: "We've created your account for you.",
-        status: 'success',
-        duration: 5000,
-        isClosable: true,
-      });
+    if (step === 1) {
+      validateStepOne();
+    } else if (step === 2) {
+      if (validateStepTwo()) {
+        setStep(3); // Move to confirmation screen after successful submission
+        // Handle API submission here if needed
+      }
     }
   };
 
+  const handleBack = () => {
+    setStep(1);
+    setErrors({});  // Clear any errors when going back
+  };
+
+  const handleBackToLogin = () => {
+    // Navigate to login page
+    // You might want to use react-router's navigate here
+  };
+
   return (
-    <Box bg="gray.50" minH="100vh" display="flex" flexDirection="column">
-      <Header />
-      <Box flex="1">
-        <Container maxW="container.xl" py={8}>
-          <Flex direction="column" align="center">
-            {/* Logo */}
-            <Box
-              bg="cyan.400"
-              color="white"
-              px={3}
-              py={1}
-              borderRadius="md"
-              fontSize="md"
-              mb={8}
-            >
-              SusDev OS
-            </Box>
+    <PageContainer>
+      <Flex direction="column" align="center" w="full" py={8}>
+        {/* Logo */}
+        <Box
+          bg="cyan.400"
+          color="white"
+          px={3}
+          py={1}
+          borderRadius="md"
+          fontSize="md"
+          mb={8}
+        >
+          SusDev OS
+        </Box>
 
-            {/* Form Container */}
-            <Box 
-              w="full" 
-              maxW="440px" 
-              bg="white" 
-              borderRadius="xl"
-              boxShadow="sm"
-              p={{ base: 6, md: 8 }}
-            >
-              <VStack spacing={6} align="stretch">
-                <VStack spacing={1} align="center">
-                  <Heading
-                    as="h1"
-                    fontSize="32px"
-                    fontWeight="semibold"
-                    color="gray.900"
-                  >
-                    Create an account
-                  </Heading>
-                  <Text color="gray.600" fontSize="md">
-                    something should write here
-                  </Text>
-                </VStack>
-
-                <form onSubmit={handleSubmit}>
-                  <VStack spacing={5}>
-                    <FormControl isInvalid={!!errors.email}>
-                      <FormLabel color="gray.700">Email*</FormLabel>
-                      <Input
-                        type="email"
-                        placeholder="Enter your Email"
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
-                        size="lg"
-                        borderRadius="md"
-                        borderColor="gray.200"
-                        _placeholder={{ color: 'gray.500' }}
-                      />
-                      <FormErrorMessage>{errors.email}</FormErrorMessage>
-                    </FormControl>
-
-                    <FormControl isInvalid={!!errors.password}>
-                      <FormLabel color="gray.700">Password*</FormLabel>
-                      <Input
-                        type="password"
-                        placeholder="Create a password"
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                        size="lg"
-                        borderRadius="md"
-                        borderColor="gray.200"
-                        _placeholder={{ color: 'gray.500' }}
-                      />
-                      <FormErrorMessage>{errors.password}</FormErrorMessage>
-                      <Text fontSize="sm" color="gray.600" mt={1}>
-                        Must be at least 8 characters.
-                      </Text>
-                    </FormControl>
-
-                    <FormControl isInvalid={!!errors.confirmPassword}>
-                      <FormLabel color="gray.700">Re-enter Password*</FormLabel>
-                      <Input
-                        type="password"
-                        placeholder="Create a password"
-                        value={confirmPassword}
-                        onChange={(e) => setConfirmPassword(e.target.value)}
-                        size="lg"
-                        borderRadius="md"
-                        borderColor="gray.200"
-                        _placeholder={{ color: 'gray.500' }}
-                      />
-                      <FormErrorMessage>{errors.confirmPassword}</FormErrorMessage>
-                    </FormControl>
-
-                    <Button
-                      type="submit"
-                      width="100%"
-                      size="lg"
-                      bg="gray.900"
-                      color="white"
-                      _hover={{ bg: 'gray.800' }}
-                      mt={4}
-                      h="48px"
-                      fontSize="md"
-                    >
-                      Get started
-                    </Button>
-                  </VStack>
-                </form>
-              </VStack>
-            </Box>
-          </Flex>
-        </Container>
-      </Box>
-      <Footer />
-    </Box>
+        {/* Form Container */}
+        <Box 
+          w="full" 
+          maxW="440px" 
+          bg="white" 
+          borderRadius="xl"
+          boxShadow="sm"
+          p={{ base: 6, md: 8 }}
+        >
+          {step === 1 ? (
+            <StepOne
+              {...formData}
+              errors={errors}
+              handleChange={handleChange}
+              handleSubmit={handleSubmit}
+            />
+          ) : step === 2 ? (
+            <StepTwo
+              {...formData}
+              agreed={agreed}
+              errors={errors}
+              handleChange={handleChange}
+              handleCheckbox={handleCheckbox}
+              handleSubmit={handleSubmit}
+              onBack={handleBack}
+            />
+          ) : (
+            <StepThree
+              email={formData.email}
+              onBackToLogin={handleBackToLogin}
+            />
+          )}
+        </Box>
+      </Flex>
+    </PageContainer>
   );
 } 

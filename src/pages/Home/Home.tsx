@@ -1,6 +1,5 @@
 import { Box } from '@chakra-ui/react'
 import {
-  Header,
   TitleSection,
   ValueProposition,
   PartnerLogos,
@@ -9,32 +8,36 @@ import {
   CaseStudies,
   Benefits,
   ClimateFinance,
-  ValuesSection,
-  ContactForm,
   Partnership,
-  Footer,
 } from '../../components'
+import { ContactForm } from '../../components/Home/ContactForm/ContactForm'
+import { ValuesSection } from '../../components/Home/ValuesSection/ValuesSection'
+import { PageContainer } from '../../components/PageContainer/PageContainer'
 
 export function Home() {
-    //console.log('Home component rendered')  
   return (
-    <Box as="main" minH="100vh" bg="gray.50">
-      <Header />
-      <TitleSection />
-      <ValueProposition />
-      <PartnerLogos />
-      <AboutSection />
-      <SolutionsSection />
-      <ContactForm />
-      <CaseStudies />
-      <Benefits />
-      <ClimateFinance />
-      <ValuesSection />
-      <Partnership />
-      <Footer />
-
-
-      {/* Other sections will be added here */}
-    </Box>
-  )
+    <PageContainer variant="full-width">
+      <Box as="main" minH="100vh" bg="gray.50">
+        <TitleSection />
+        <ValueProposition />
+        <PartnerLogos />
+        <Box id="about">
+          <AboutSection />
+        </Box>
+        <Box id="solutions">
+          <SolutionsSection />
+        </Box>
+        <Box id="case-studies">
+          <CaseStudies />
+        </Box>
+        <Box id="contact">
+          <ContactForm />
+        </Box>
+        <Benefits />
+        <ClimateFinance />
+        <ValuesSection />
+        <Partnership />
+      </Box>
+    </PageContainer>
+  );
 } 
