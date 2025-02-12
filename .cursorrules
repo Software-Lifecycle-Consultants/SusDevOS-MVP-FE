@@ -56,7 +56,12 @@
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
     "useDefineForClassFields": true,
-    "isolatedModules": true
+    "isolatedModules": true,
+    "explicitTypes": {
+      "requirePropsInterface": true,
+      "requireResponseTypes": true,
+      "avoidAny": true
+    }
   },
   "react": {
     "hooks": {
@@ -165,6 +170,60 @@
     },
     "componentProps": {
       "requireDescription": true
+    }
+  },
+  "fileStructure": {
+    "components": {
+      "folderStructure": {
+        "pattern": "components/{ComponentName}/{ComponentName}.tsx",
+        "additionalFiles": [
+          "{ComponentName}.test.tsx",
+          "{ComponentName}.styles.ts"
+        ]
+      }
+    },
+    "utils": {
+      "location": "src/utils",
+      "naming": "camelCase.ts"
+    },
+    "hooks": {
+      "location": "src/hooks",
+      "naming": "use{Name}.ts"
+    }
+  },
+  "testing": {
+    "framework": "jest",
+    "conventions": {
+      "filePattern": "**/*.test.{ts,tsx}",
+      "naming": "{ComponentName}.test.tsx",
+      "coverage": {
+        "statements": 80,
+        "branches": 80,
+        "functions": 80,
+        "lines": 80
+      }
+    }
+  },
+  "api": {
+    "conventions": {
+      "baseConfig": true,
+      "errorHandling": true,
+      "interceptors": true,
+      "typeSafety": true
+    }
+  },
+  "security": {
+    "rules": {
+      "requireInputSanitization": true,
+      "preventXSS": true,
+      "secureDataHandling": true
+    }
+  },
+  "accessibility": {
+    "rules": {
+      "requireSemanticHTML": true,
+      "enforceARIAAttributes": true,
+      "requireAltText": true
     }
   }
 } 

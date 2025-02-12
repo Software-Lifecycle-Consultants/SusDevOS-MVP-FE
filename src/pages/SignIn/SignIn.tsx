@@ -16,6 +16,7 @@ import {
 import { useState } from 'react';
 import { Link as RouterLink, useNavigate } from 'react-router-dom';
 import { PageContainer } from '../../components/PageContainer/PageContainer';
+import { authService } from '../../services/auth.service'
 
 export function SignIn() {
   const [formData, setFormData] = useState({
@@ -61,11 +62,41 @@ export function SignIn() {
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (validateForm()) {
-      // Handle sign in logic here
-      console.log('Form submitted:', { ...formData, rememberMe });
+      try {
+        const response = await authService.login(formData.email, formData.password);
+        
+        // Store remember me preference
+        localStorage.setItem('rememberMe', rememberMe.toString());
+        
+        // Store tokens
+        authService.setTokens({
+          access_token: response.access_token,
+          refresh_token: response.refresh_token,
+        });
+
+        toast({
+          title: 'Success',
+          description: 'Successfully signed in!',
+          status: 'success',
+          duration: 3000,
+          isClosable: true,
+        });
+
+        navigate('/dashboard');
+      } catch (error) {
+        toast({
+          title: 'Error',
+          description: error instanceof Error 
+            ? error.message 
+            : 'An error occurred while signing in',
+          status: 'error',
+          duration: 5000,
+          isClosable: true,
+        });
+      }
     }
   };
 

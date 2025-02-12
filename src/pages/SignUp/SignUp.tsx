@@ -16,6 +16,8 @@ import { PageContainer } from '../../components/PageContainer/PageContainer';
 import { StepOne } from './components/StepOne';
 import { StepTwo } from './components/StepTwo';
 import { StepThree } from './components/StepThree';
+import { useSignUp } from '../../hooks/auth/useSignUp';
+import { create } from 'zustand';
 
 export function SignUp() {
   const [step, setStep] = useState(1);
@@ -30,6 +32,7 @@ export function SignUp() {
   const [agreed, setAgreed] = useState(false);
   const [errors, setErrors] = useState<Record<string, string>>({});
   const toast = useToast();
+  const signUp = useSignUp();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
@@ -105,14 +108,19 @@ export function SignUp() {
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (step === 1) {
       validateStepOne();
     } else if (step === 2) {
       if (validateStepTwo()) {
-        setStep(3); // Move to confirmation screen after successful submission
-        // Handle API submission here if needed
+        signUp.mutate({
+          email: formData.email,
+          password: formData.password,
+          organization: formData.organization,
+          phoneNumber: formData.phoneNumber,
+          message: formData.message,
+        });
       }
     }
   };
